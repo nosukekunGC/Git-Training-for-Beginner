@@ -8,6 +8,8 @@ on:
     branches:
       - main
   workflow_dispatch:
+env:
+  APP_PATH: './src/Web'
 
 jobs:
   build:
@@ -22,10 +24,10 @@ jobs:
         dotnet-version: '3.1.301'
 
     - name: Build with dotnet
-      run: dotnet build --configuration Release
+      run: dotnet build ${{ env.APP_PATH }} --configuration Release
 
     - name: dotnet publish
-      run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+      run: dotnet publish ${{ env.APP_PATH }} -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v2
@@ -52,5 +54,5 @@ jobs:
       with:
         app-name: 'app-CloudWorkshop02'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_1dae0e15b81e4e5a9f0674e831d7d4ce }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_1DAE0E15B81E4E5A9F0674E831D7D4CE }}
         package: .
